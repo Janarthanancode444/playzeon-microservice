@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <include file="db/changelog/280320251005_create_user_entity.xml"/>
+    <include file="db/changelog/080420251043_created_image_entity.xml"/>
+    <include file="db/changelog/270320251353_created_organization_entity.xml"/>
+    <include file="db/changelog/030420251119_created_center_entity.xml"/>
+    <include file="db/changelog/030420251233_created_sport_entity.xml"/>
+    <include file="db/changelog/030420251345_created_sport_center_map_entity.xml"/>
+    <include file="db/changelog/160420251028_created_error_entity.xml"/>
+    <include file="db/changelog/240420251021_created_booking_entity.xml"/>
+</databaseChangeLog>
