@@ -20,6 +20,7 @@ import org.user.exception.UserRequestServiceException;
 import org.user.repository.UserRepository;
 import org.user.util.Constants;
 import org.user.util.UtilService;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +49,6 @@ public class UserService {
         final User user = new User();
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
-        user.setRoles(userDTO.getRoles());
         user.setPhone(userDTO.getPhone());
         user.setCreatedBy(userDTO.getCreatedBy());
         user.setUpdatedBy(userDTO.getUpdatedBy());
@@ -58,7 +58,7 @@ public class UserService {
 
     private void validateEmail(final UserDTO userDTO) {
         if (UtilService.emailValidation(userDTO.getEmail())) {
-            throw new UserRequestServiceException(Constants.EMAIL_PATTERN, Constants.EMAIL_PATTERN, Constants.ENDCREATED, userDTO.getCreatedBy());
+            throw new UserRequestServiceException(Constants.EMAIL_PATTERN, Constants.POST, Constants.ENDCREATED, userDTO.getCreatedBy(), Constants.USER, Constants.CREATED_USER);
         }
         final Optional<User> emailFound = this.userRepository.findByName(userDTO.getEmail());
         if (emailFound.isPresent()) {
@@ -68,7 +68,7 @@ public class UserService {
 
     private void validatePhone(final UserDTO userDTO) {
         if (UtilService.phoneNumberValidation(userDTO.getPhone())) {
-            throw new BadRequestServiceException(Constants.PHONE_PATTERN);
+            throw new UserRequestServiceException(Constants.PHONE_PATTERN, Constants.POST, Constants.ENDCREATED, userDTO.getCreatedBy(), Constants.USER, Constants.CREATED_USER);
         }
         final List<User> phoneFound = this.userRepository.findByPhone(userDTO.getPhone());
         if (!phoneFound.isEmpty()) {
@@ -83,7 +83,7 @@ public class UserService {
     @Transactional
     public ResponseDTO updateUser(final UserDTO userDTO, final String id) {
         {
-            final User existingUser = this.userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Constants.User));
+            final User existingUser = this.userRepository.findById(id).orElseThrow(() -> new UserRequestServiceException(Constants.User, Constants.POST, Constants.ENDCREATED, userDTO.getCreatedBy(), Constants.USER, Constants.CREATED_USER));
             if (userDTO.getName() != null) {
                 existingUser.setName(userDTO.getName());
             }
@@ -99,9 +99,6 @@ public class UserService {
             if (userDTO.getPassword() != null) {
                 existingUser.setPassword((passwordEncoder.encode(userDTO.getPassword())));
             }
-            if (userDTO.getRoles() != null) {
-                existingUser.setRoles(userDTO.getRoles());
-            }
             return new ResponseDTO(Constants.SUCCESS, this.userRepository.save(existingUser), HttpStatus.OK.getReasonPhrase());
         }
 
@@ -110,7 +107,7 @@ public class UserService {
     @Transactional
     public ResponseDTO removeUser(final String id) {
         if (!this.userRepository.existsById(id)) {
-            throw new UsernameNotFoundException(Constants.NOT_FOUND);
+            throw new UserRequestServiceException(Constants.User, Constants.POST, Constants.ENDCREATED, null, Constants.USER, Constants.CREATED_USER);
         }
         this.userRepository.deleteById(id);
         return new ResponseDTO(Constants.DELETED, id, HttpStatus.OK.getReasonPhrase());

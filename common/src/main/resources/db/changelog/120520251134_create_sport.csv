@@ -1,0 +1,13 @@
+id,name,sports_type,sports_category,image_id,created_by,updated_by
+f095e09c-82c5-472a-8a67-94f4dc414810,FOOTBALL,OUTDOOR,TEAM,f095e09c-82c5-472a-8a67-94f4dc41486d,janarthanan,janarthanan
+f095e09c-82c5-472a-8a67-94f4dc414862,BASKETBALL,INDOOR,TEAM,f095e09c-82c5-472a-8a67-94f4dc41486d,janarthanan,janarthanan
+f095e09c-82c5-472a-8a67-94f4dc414863,TENNIS,OUTDOOR,INDIVIDUAL,f095e09c-82c5-472a-8a67-94f4dc41486d,janarthanan,janarthanan
+f095e09c-82c5-472a-8a67-94f4dc414864,CRICKET,OUTDOOR,TEAM,f095e09c-82c5-472a-8a67-94f4dc41486d,janarthanan,janarthanan
+f095e09c-82c5-472a-8a67-94f4dc414865,BASEBALL,OUTDOOR,TEAM,f095e09c-82c5-472a-8a67-94f4dc41486d,janarthanan,janarthanan
+f095e09c-82c5-472a-8a67-94f4dc414866,TABLE TENNIS,INDOOR,INDIVIDUAL,f095e09c-82c5-472a-8a67-94f4dc41486d,janarthanan,janarthanan
+f095e09c-82c5-472a-8a67-94f4dc414867,BADMINTON,INDOOR,INDIVIDUAL,f095e09c-82c5-472a-8a67-94f4dc41486d,janarthanan,janarthanan
+f095e09c-82c5-472a-8a67-94f4dc414868,HOCKEY,OUTDOOR,TEAM,f095e09c-82c5-472a-8a67-94f4dc41486d,janarthanan,janarthanan
+f095e09c-82c5-472a-8a67-94f4dc414869,GOLF,OUTDOOR,INDIVIDUAL,f095e09c-82c5-472a-8a67-94f4dc41486d,janarthanan,janarthanan
+
+
+

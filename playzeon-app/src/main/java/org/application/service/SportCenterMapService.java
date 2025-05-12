@@ -40,9 +40,9 @@ public class SportCenterMapService {
     }
 
     @Transactional
-    public ResponseDTO createSportsCente(final SportsCenterMapDTO sportsCenterMapDTO) {
-        final Center center = this.centerRepository.findById(sportsCenterMapDTO.getCenterId()).orElseThrow(() -> new CenterRequestServiceException(Constants.CENTERID));
-        final Sport sport = this.sportRepository.findById(sportsCenterMapDTO.getSportsId()).orElseThrow(() -> new SportRequestServiceException(Constants.SPORTSID));
+    public ResponseDTO createSportsCenter(final SportsCenterMapDTO sportsCenterMapDTO) {
+        final Center center = this.centerRepository.findById(sportsCenterMapDTO.getCenterId()).orElseThrow(() -> new CenterRequestServiceException(Constants.IMAGEID, Constants.POST, Constants.CREATE, authenticationService.getCurrentUser(), Constants.CREATE, Constants.CENTER));
+        final Sport sport = this.sportRepository.findById(sportsCenterMapDTO.getSportsId()).orElseThrow(() -> new SportRequestServiceException(Constants.SPORTSID, Constants.SPORTSID, Constants.CREATE, authenticationService.getCurrentUser(), Constants.CREATE, Constants.SPORT));
         final SportCenterMap sportCenterMap = new SportCenterMap();
         sportCenterMap.setCenter(center);
         sportCenterMap.setSports(sport);
@@ -58,7 +58,7 @@ public class SportCenterMapService {
 
     @Transactional
     public ResponseDTO updateSports(final SportsCenterMapDTO sportsCenterMapDTO, final String id) {
-        final SportCenterMap sportCenterMap = this.sportCenterMapRepository.findById(id).orElseThrow(() -> new SportCenterMapRequestServiceException(Constants.SPORTSCENTER));
+        final SportCenterMap sportCenterMap = this.sportCenterMapRepository.findById(id).orElseThrow(() -> new SportCenterMapRequestServiceException(Constants.SPORTSCENTER, Constants.SPORTSCENTER, Constants.PUT, authenticationService.getCurrentUser(), Constants.UPDATE, Constants.SPORTCENTERMAP));
         if (sportsCenterMapDTO.getCenterId() != null) {
             final Center center = this.centerRepository.findById(sportsCenterMapDTO.getSportsId()).orElseThrow(() -> new BadRequestServiceException(Constants.CENTERID));
             sportCenterMap.setCenter(center);
@@ -73,7 +73,7 @@ public class SportCenterMapService {
     @Transactional
     public ResponseDTO removeSports(final String id) {
         if (!this.sportCenterMapRepository.existsById(id)) {
-            throw new SportCenterMapRequestServiceException(Constants.SPORTSCENTER);
+            throw new SportCenterMapRequestServiceException(Constants.SPORTSCENTER, Constants.SPORTSCENTER, Constants.DELETE, authenticationService.getCurrentUser(), Constants.REOMVE, Constants.SPORTCENTERMAP);
         }
         this.sportCenterMapRepository.deleteById(id);
         return new ResponseDTO(Constants.REMOVED, id, HttpStatus.OK.getReasonPhrase());
@@ -82,6 +82,7 @@ public class SportCenterMapService {
     public ResponseDTO retrieveId(final String id) {
         return new ResponseDTO(Constants.RETRIEVED, this.sportCenterMapRepository.findById(id), HttpStatus.OK.getReasonPhrase());
     }
+
     public ResponseDTO getAllSportsByCenterId(String centerId) {
         final Optional<SportCenterMap> sportCenterMapOptional = this.sportCenterMapRepository.findById(centerId);
         final CenterQrDTO dto = new CenterQrDTO();
@@ -103,6 +104,7 @@ public class SportCenterMapService {
             return new ResponseDTO(Constants.NOT_FOUND, null, HttpStatus.NOT_FOUND.getReasonPhrase());
         }
     }
+
     public CenterQr getCenterQRCodeWithSports(String centerId) throws Exception {
         final List<Sport> sports = sportCenterMapRepository.findAllByCenterId(centerId).stream().map(SportCenterMap::getSports).toList();
         final String qrText = "https://81e3-124-123-80-156.ngrok-free.app/api/v1/sportscentermap/retrieveId/e8ebcda6-30b2-4877-8aeb-1833ccbb86fe";

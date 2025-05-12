@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="9" author="mani">
+    <changeSet id="34c2f215-4378-417c-b838-6f07d8e35a07" author="janarthanan">
         <createTable tableName="booking">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
@@ -45,5 +45,12 @@
         <addForeignKeyConstraint baseTableName="booking" baseColumnNames="center_id"
                                  constraintName="fk_center_id" referencedTableName="center"
                                  referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="34c2f215-4378-417c-b838-6f07d8e35a09" author="janarthanan">
+        <addColumn tableName="booking">
+            <column name="address" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
     </changeSet>
 </databaseChangeLog>

@@ -38,6 +38,8 @@ public class GlobalExceptionHandler {
         error.setErrorMessage(exception.getMessage());
         error.setEndPoint(exception.getEndPoint());
         error.setCreatedBy(exception.getCreatedBy());
+        error.setType(exception.getType());
+        error.setMethodName(exception.getMethodName());
         this.errorRepository.save(error);
         return new ResponseDTO(Constants.NOT_FOUND, exception.getMessage(), HttpStatus.BAD_REQUEST.getReasonPhrase());
     }

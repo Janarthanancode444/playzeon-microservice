@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/booking/v1/")
+@RequestMapping("/api/v1/booking")
 public class BookingController {
     private final BookingService bookingService;
 
@@ -23,25 +23,25 @@ public class BookingController {
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    //@PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseDTO createBooking(@RequestBody final BookingDTO bookingDTO) {
         return this.bookingService.createBooking(bookingDTO);
     }
 
     @GetMapping("/retrieve")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    //@PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseDTO retrieveBooking() {
         return this.bookingService.retrieveBooking();
     }
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    //@PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseDTO updateBooking(@RequestBody BookingDTO bookingDTO, @PathVariable final String id) {
         return this.bookingService.updateBooking(bookingDTO, id);
     }
 
     @DeleteMapping("/remove/{id}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    //@PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseDTO removeBooking(@PathVariable final String id) {
         return this.bookingService.removeBooking(id);
     }

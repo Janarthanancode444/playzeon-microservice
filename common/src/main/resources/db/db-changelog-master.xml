@@ -13,4 +13,6 @@
     <include file="db/changelog/030420251345_created_sport_center_map_entity.xml"/>
     <include file="db/changelog/160420251028_created_error_entity.xml"/>
     <include file="db/changelog/240420251021_created_booking_entity.xml"/>
+    <include file="db/changelog/100520251019_created_role_entity.xml"/>
+    <include file="db/changelog/120520251133_create_sports_insert.xml"/>
 </databaseChangeLog>

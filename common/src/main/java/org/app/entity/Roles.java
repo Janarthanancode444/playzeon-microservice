@@ -5,26 +5,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.OneToOne;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 
 @Entity
-@Table(name = "user")
-public class User {
+public class Roles {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "phone")
-    private String phone;
-    @Column(name = "email")
-    private String email;
-    @Column(name = "password")
-    private String password;
+    @Column(name = "role")
+    private String role;
     @Column(name = "created_at")
     @CurrentTimestamp
     private Instant createdAt;
@@ -35,6 +28,8 @@ public class User {
     private Instant updatedAt;
     @Column(name = "updated_by", nullable = true)
     private String updatedBy;
+    @OneToOne
+    private User user;
 
     public String getId() {
         return id;
@@ -44,38 +39,13 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getRole() {
+        return role;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRole(String role) {
+        this.role = role;
     }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 
     public Instant getCreatedAt() {
         return createdAt;
@@ -107,5 +77,13 @@ public class User {
 
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -1,6 +1,7 @@
 package org.user.dto;
 
 
+import org.app.entity.Roles;
 import org.app.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,10 +19,10 @@ public class UserInfoUserDetailsDTO implements UserDetails {
     private String password;
     private List<GrantedAuthority> authorities;
 
-    public UserInfoUserDetailsDTO(User userInfo) {
+    public UserInfoUserDetailsDTO(User userInfo, Roles roles) {
         this.name = userInfo.getName();
         this.password = userInfo.getPassword();
-        this.authorities = Arrays.stream(userInfo.getRoles().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        this.authorities = Arrays.stream(roles.getRole().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
     @Override

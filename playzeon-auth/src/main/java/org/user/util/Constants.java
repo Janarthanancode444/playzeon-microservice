@@ -29,12 +29,28 @@ public class Constants {
     public static final String ISEMPTY = "Please upload a valid CSV file";
     public static final String SUCCESSFULLYCSV = "CSV uploaded and inserted into database successfully!";
     public static final String ERRORCSV = "Error uploading CSV";
-    public static final String BODY = "LOGIN IN ABC SPORTS";
+    public static final String BODY = "Welcome to ABC Sports! You have successfully logged in. Enjoy exploring our sports features and services.";
     public static final String SUBJECT = "SUCCESSFULLY LOGIN THE ABC SPORTS";
     public static final String IMAGEID = "IMAGE ID NOT EXISTS";
     public static final String ENDCREATED = "/api/user/v1/create";
     public static final String ENDRETRIEVE = "/api/user/v1/retrieve";
-    public static final String ENDUPDATE = "/api/user/v1/update";
-    public static final String ENDREMOVE = "/api/user/v1/remove";
+    public static final String CREATED_USER = "CREATED";
+    public static final String CREATE = "CREATE";
+    public static final String UPDATE = "UPDATE";
+    public static final String RETRIEVE = "RETRIEVE";
+    public static final String REOMVE = "REMOVE";
+    public static final Integer USER = 1;
+    public static final String POST = "POST";
+    public static final String GET = "GET";
+    public static final String PUT = "PUT";
+    public static final String LOGIN = "LOGIN";
+    public static final String DELETE = "DELETE";
+    public static final String BOOKINGID = "BOOKING ID NOT EXISTS";
+    public static final Integer ORGANIZATION = 2;
+    public static final Integer SPORT = 4;
+    public static final Integer CENTER = 3;
+    public static final Integer IMAGE = 5;
+    public static final Integer SPORTCENTERMAP = 6;
+    public static final Integer BOOKING = 7;
 
 }

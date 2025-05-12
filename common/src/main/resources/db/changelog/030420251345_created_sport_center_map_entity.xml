@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="7" author="himesh">
+    <changeSet id="34c2f215-4378-417c-b838-6f07d8e35a06" author="janarthanan">
         <createTable tableName="sport_center_map">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>

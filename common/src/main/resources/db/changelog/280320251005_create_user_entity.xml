@@ -5,15 +5,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="1" author="ram">
+    <changeSet id="34c2f215-4378-417c-b838-6f07d8e35a01" author="janarthanan">
         <createTable tableName="user">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="name" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="roles" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="password" type="varchar(255)">

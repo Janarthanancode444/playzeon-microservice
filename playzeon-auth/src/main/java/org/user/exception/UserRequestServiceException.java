@@ -5,12 +5,17 @@ public class UserRequestServiceException extends RuntimeException {
 
     private String endPoint;
     private String createdBy;
+    private String methodName;
+    private Integer type;
 
-    public UserRequestServiceException(String message, String endMessage, String endPoint, String createdBy) {
+
+    public UserRequestServiceException(String message, String endMessage, String endPoint, String createdBy,Integer type,String methodName) {
         super(message);
         this.endMessage = endMessage;
         this.endPoint = endPoint;
         this.createdBy = createdBy;
+        this.type=type;
+        this.methodName=methodName;
     }
 
     public String getEndPoint() {
@@ -35,6 +40,22 @@ public class UserRequestServiceException extends RuntimeException {
 
     public void setEndMessage(String endMessage) {
         this.endMessage = endMessage;
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }
 

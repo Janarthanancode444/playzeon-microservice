@@ -44,7 +44,7 @@ public class ImageService {
 
     @Transactional
     public ResponseDTO updateImage(final String id, final MultipartFile file, final int type) throws IOException {
-        final Image image = this.imageRepository.findById(id).orElseThrow(() -> new ImageRequestServiceException(Constants.NOT_FOUND));
+        final Image image = this.imageRepository.findById(id).orElseThrow(() -> new ImageRequestServiceException(Constants.IMAGEID,Constants.IMAGEID,Constants.PUT,authenticationService.getCurrentUser(),Constants.UPDATE,Constants.IMAGE));
         if (file != null) {
             image.setImage(file.getBytes());
         }
@@ -57,7 +57,7 @@ public class ImageService {
     @Transactional
     public ResponseDTO removeImage(final String id) {
         if (!this.imageRepository.existsById(id)) {
-            throw new ImageRequestServiceException(Constants.NOT_FOUND);
+            throw new ImageRequestServiceException(Constants.IMAGEID,Constants.IMAGEID,Constants.DELETE,authenticationService.getCurrentUser(),Constants.REOMVE,Constants.IMAGE);
         }
         this.imageRepository.deleteById(id);
         return new ResponseDTO(Constants.DELETED, id, HttpStatus.OK.getReasonPhrase());

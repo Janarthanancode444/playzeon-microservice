@@ -26,7 +26,7 @@ public class SportCenterMapController {
     @PostMapping("/create")
     //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseDTO createsportsCenter(@RequestBody final SportsCenterMapDTO sportsCenterMapDTO) {
-        return this.sportCenterMapService.createSportsCente(sportsCenterMapDTO);
+        return this.sportCenterMapService.createSportsCenter(sportsCenterMapDTO);
     }
 
     @GetMapping("/retrieveAll")

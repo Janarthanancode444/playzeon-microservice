@@ -8,10 +8,10 @@ import org.application.exception.BookingRequestExceptionService;
 import org.application.exception.CenterRequestServiceException;
 import org.application.repository.BookingRepository;
 import org.application.repository.CenterRepository;
+import org.application.util.AuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.user.dto.ResponseDTO;
-import org.application.util.AuthenticationService;
 import org.user.util.Constants;
 
 @Service
@@ -28,7 +28,7 @@ public class BookingService {
 
     @Transactional
     public ResponseDTO createBooking(final BookingDTO bookingDTO) {
-        final Center center = this.centerRepository.findById(bookingDTO.getCenterId()).orElseThrow(() -> new CenterRequestServiceException(Constants.CENTERID));
+        final Center center = this.centerRepository.findById(bookingDTO.getCenterId()).orElseThrow(() -> new CenterRequestServiceException(Constants.CENTERID, Constants.CENTERID, Constants.POST, authenticationService.getCurrentUser(), Constants.CREATE, Constants.CENTER));
         final Booking booking = new Booking();
         booking.setName(bookingDTO.getName());
         booking.setPhone(bookingDTO.getPhone());
@@ -45,9 +45,10 @@ public class BookingService {
     public ResponseDTO retrieveBooking() {
         return new ResponseDTO(Constants.RETRIEVED, this.bookingRepository.findAll(), HttpStatus.OK.getReasonPhrase());
     }
-@Transactional
+
+    @Transactional
     public ResponseDTO updateBooking(final BookingDTO bookingDTO, final String id) {
-        final Booking booking = this.bookingRepository.findById(id).orElseThrow(() -> new BookingRequestExceptionService(org.application.util.Constants.BOOKINGID));
+        final Booking booking = this.bookingRepository.findById(id).orElseThrow(() -> new BookingRequestExceptionService(Constants.BOOKINGID, Constants.BOOKINGID, Constants.PUT, authenticationService.getCurrentUser(), Constants.UPDATE, Constants.BOOKING));
         if (bookingDTO.getName() != null) {
             booking.setName(bookingDTO.getName());
         }
@@ -65,10 +66,11 @@ public class BookingService {
         }
         return new ResponseDTO(Constants.UPDATED, this.bookingRepository.save(booking), HttpStatus.OK.getReasonPhrase());
     }
-@Transactional
+
+    @Transactional
     public ResponseDTO removeBooking(final String id) {
         if (!this.bookingRepository.existsById(id)) {
-            throw new BookingRequestExceptionService(org.application.util.Constants.BOOKINGID);
+            throw new BookingRequestExceptionService(Constants.BOOKINGID, Constants.BOOKINGID, Constants.DELETE, authenticationService.getCurrentUser(), Constants.REOMVE, Constants.BOOKING);
         }
         this.bookingRepository.deleteById(id);
         return new ResponseDTO(Constants.REMOVED, id, HttpStatus.OK.getReasonPhrase());

@@ -36,11 +36,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/user/**").permitAll()) // Allow public access
-                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless session management
-        ).authenticationProvider(authenticationProvider()); // Custom authentication provider
+        http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/user/**").permitAll().requestMatchers("/api/v1/role/**").permitAll())
+                // Allow public access
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless session management
+                ).authenticationProvider(authenticationProvider()); // Custom authentication provider
         // Add custom filter
-
         return http.build();
     }
 

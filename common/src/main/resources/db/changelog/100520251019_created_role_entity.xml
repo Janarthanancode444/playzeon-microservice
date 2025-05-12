@@ -5,12 +5,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 						http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="34c2f215-4378-417c-b838-6f07d8e35a04" author="janarthanan">
-        <createTable tableName="sport">
+    <changeSet id="34c2f215-4378-417c-b838-6f07d8e35a10" author="janarthanan">
+        <createTable tableName="roles">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(50)">
+            <column name="role" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
@@ -25,19 +25,13 @@
             <column name="updated_by" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="sports_type" type="varchar(50)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="sports_category" type="varchar(50)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="image_id" type="varchar(38)">
+            <column name="user_id" type="varchar(38)">
                 <constraints nullable="false"/>
             </column>
 
         </createTable>
-        <addForeignKeyConstraint baseTableName="sport" baseColumnNames="image_id"
-                                 constraintName="sport_image" referencedTableName="image"
+        <addForeignKeyConstraint baseTableName="roles" baseColumnNames="user_id"
+                                 constraintName="fk_user_id" referencedTableName="user"
                                  referencedColumnNames="id"/>
     </changeSet>
 

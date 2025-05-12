@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.user.dto.ResponseDTO;
 import org.user.util.Constants;
 
+
 @Service
 public class CenterService {
     private final CenterRepository centerRepository;
@@ -33,8 +34,8 @@ public class CenterService {
     @Transactional
     public ResponseDTO createCenter(final CenterDTO centerDTO) {
         final Center center = new Center();
-        final Image image = this.imageRepository.findById(centerDTO.getImageId()).orElseThrow(() -> new CenterRequestServiceException(Constants.IMAGEID));
-        final Organization organization = this.organizationRepository.findById(centerDTO.getOrganizationId()).orElseThrow(() -> new OrganizationRequestServiceException(Constants.ORGANIZATIONID));
+        final Image image = this.imageRepository.findById(centerDTO.getImageId()).orElseThrow(() -> new CenterRequestServiceException(Constants.IMAGEID, Constants.IMAGEID, Constants.POST, authenticationService.getCurrentUser(), Constants.CREATE, Constants.CENTER));
+        final Organization organization = this.organizationRepository.findById(centerDTO.getOrganizationId()).orElseThrow(() -> new OrganizationRequestServiceException(Constants.ORGANIZATIONID, Constants.POST, Constants.CREATE, authenticationService.getCurrentUser(), Constants.ORGANIZATION, Constants.CREATED_USER));
         center.setName(centerDTO.getName());
         center.setPhone(centerDTO.getPhone());
         center.setEmail(centerDTO.getEmail());
@@ -56,7 +57,7 @@ public class CenterService {
 
     @Transactional
     public ResponseDTO updateCenter(final CenterDTO centerDTO, final String id) {
-        final Center center = this.centerRepository.findById(id).orElseThrow(() -> new CenterRequestServiceException(Constants.CENTERID));
+        final Center center = this.centerRepository.findById(id).orElseThrow(() -> new CenterRequestServiceException(Constants.CENTERID, Constants.CENTERID, Constants.PUT, authenticationService.getCurrentUser(), Constants.UPDATE, Constants.CENTER));
         if (centerDTO.getName() != null) {
             center.setName(centerDTO.getName());
         }
@@ -81,7 +82,7 @@ public class CenterService {
     @Transactional
     public ResponseDTO removeCenter(final String id) {
         if (!this.centerRepository.existsById(id)) {
-            throw new CenterRequestServiceException(Constants.NOT_FOUND);
+            throw new CenterRequestServiceException(Constants.CENTERID, Constants.CENTERID, Constants.DELETE, authenticationService.getCurrentUser(), Constants.REOMVE, Constants.CENTER);
         }
         this.centerRepository.deleteById(id);
         return new ResponseDTO(Constants.REMOVED, id, HttpStatus.OK.getReasonPhrase());

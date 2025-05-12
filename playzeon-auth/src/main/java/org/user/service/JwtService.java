@@ -5,14 +5,17 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.app.entity.Roles;
 import org.app.entity.User;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.user.dto.ResponseDTO;
+import org.user.exception.UserRequestServiceException;
+import org.user.repository.RolesRepository;
 import org.user.repository.UserRepository;
 import org.user.util.Constants;
+
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,9 +28,11 @@ public class JwtService {
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
     private final UserRepository repository;
+    private final RolesRepository rolesRepository;
 
-    public JwtService(UserRepository repository) {
+    public JwtService(UserRepository repository, RolesRepository rolesRepository) {
         this.repository = repository;
+        this.rolesRepository = rolesRepository;
     }
 
     public String extractUsername(String token) {
@@ -57,10 +62,12 @@ public class JwtService {
     }
 
 
-    public ResponseDTO generateToken(String userName) {
-        final User user = this.repository.findByName(userName).orElseThrow(() -> new BadCredentialsException(Constants.NOT_FOUND));
+    public ResponseDTO generateToken(final String userName) {
+        final User user = this.repository.findByName(userName).orElseThrow(() -> new UserRequestServiceException(Constants.User, Constants.User, Constants.POST, userName, Constants.USER, Constants.LOGIN));
         final Map<String, Object> claims = new HashMap<>();
-        claims.put("role", user.getRoles());
+        final Roles roles = this.rolesRepository.findByRole(user.getId()).orElseThrow(() -> new UserRequestServiceException(Constants.User, Constants.User, Constants.POST, userName, Constants.USER, Constants.LOGIN));
+
+        claims.put("role", roles.getRole());
         return new ResponseDTO(Constants.CREATED, createToken(claims, userName), HttpStatus.OK.getReasonPhrase());
     }
 
