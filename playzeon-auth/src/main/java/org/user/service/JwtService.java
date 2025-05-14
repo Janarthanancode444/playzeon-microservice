@@ -5,16 +5,20 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.app.entity.Roles;
 import org.app.entity.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.user.dto.ResponseDTO;
 import org.user.exception.UserRequestServiceException;
 import org.user.repository.RolesRepository;
 import org.user.repository.UserRepository;
 import org.user.util.Constants;
+
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -62,7 +66,8 @@ public class JwtService {
 
 
     public ResponseDTO generateToken(final String userName) {
-        final User user = this.repository.findByName(userName).orElseThrow(() -> new UserRequestServiceException(Constants.User, Constants.User, Constants.POST, userName, Constants.USER, Constants.LOGIN));
+        final HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        final User user = this.repository.findByName(userName).orElseThrow(() -> new UserRequestServiceException(Constants.User, Constants.EMAIL_PATTERN, request.getRequestURI(), getClass().getName(), Constants.POST, userName, Constants.USERREQUESTEXCEPTION));
         final Map<String, Object> claims = new HashMap<>();
         final Roles roles = this.rolesRepository.findRoleByUserId(user.getId());
         claims.put("role", roles.getRole());

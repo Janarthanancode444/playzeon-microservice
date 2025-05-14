@@ -5,14 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.CurrentTimestamp;
 
 import java.time.Instant;
 
 @Entity
-@Table(name="error_history")
+@Table(name = "error_history")
 public class ErrorHistory {
 
     @Id
@@ -22,17 +21,17 @@ public class ErrorHistory {
     private String errorMessage;
     @Column(name = "end_point")
     private String endPoint;
-    @Column(name = "exception")
-    private String exception;
-    @Column(name = "class_name")
-    private String className;
+    @Column(name = "exception_class")
+    private String exceptionClass;
+    @Column(name = "error_class")
+    private String errorClass;
     @Column(name = "method_name")
     private String methodName;
-    @Column(name = "error_occurring")
+    @Column(name = "error_occurred", columnDefinition = "TIMESTAMP(6)")
     @CurrentTimestamp
-    private Instant errorOccurring;
-    @ManyToOne
-    private User user;
+    private Instant errorOccurred;
+    @Column(name = "userId")
+    private String userId;
 
 
     public String getId() {
@@ -59,20 +58,20 @@ public class ErrorHistory {
         this.endPoint = endPoint;
     }
 
-    public String getException() {
-        return exception;
+    public String getExceptionClass() {
+        return exceptionClass;
     }
 
-    public void setException(String exception) {
-        this.exception = exception;
+    public void setExceptionClass(String exceptionClass) {
+        this.exceptionClass = exceptionClass;
     }
 
-    public String getClassName() {
-        return className;
+    public String getErrorClass() {
+        return errorClass;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setErrorClass(String errorClass) {
+        this.errorClass = errorClass;
     }
 
     public String getMethodName() {
@@ -83,19 +82,19 @@ public class ErrorHistory {
         this.methodName = methodName;
     }
 
-    public Instant getErrorOccurring() {
-        return errorOccurring;
+    public Instant getErrorOccurred() {
+        return errorOccurred;
     }
 
-    public void setErrorOccurring(Instant errorOccurring) {
-        this.errorOccurring = errorOccurring;
+    public void setErrorOccurred(Instant errorOccurred) {
+        this.errorOccurred = errorOccurred;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

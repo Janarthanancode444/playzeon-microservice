@@ -39,7 +39,8 @@ public class Constants {
     public static final String UPDATE = "UPDATE";
     public static final String RETRIEVE = "RETRIEVE";
     public static final String REOMVE = "REMOVE";
-    public static final Integer USER = 1;
+    public static final String USER = "USER";
+    public static final String USERREQUESTEXCEPTION = "USERREQUESTEXPTIONNOTFOUND";
     public static final String POST = "POST";
     public static final String GET = "GET";
     public static final String PUT = "PUT";

@@ -40,8 +40,9 @@ public class GlobalExceptionHandler {
         final ErrorHistory errorHistory = new ErrorHistory();
         errorHistory.setErrorMessage(exception.getMessage());
         errorHistory.setEndPoint(exception.getEndPoint());
-        errorHistory.setUser(null);
-        errorHistory.setClassName(exception.getMethodName());
+        errorHistory.setUserId(exception.getUserId());
+        errorHistory.setExceptionClass(exception.getClass().getName());
+        errorHistory.setErrorClass(exception.getErrorClass());
         errorHistory.setMethodName(exception.getMethodName());
         this.errorHistoryRepository.save(errorHistory);
         return new ResponseDTO(Constants.NOT_FOUND, exception.getMessage(), HttpStatus.BAD_REQUEST.getReasonPhrase());

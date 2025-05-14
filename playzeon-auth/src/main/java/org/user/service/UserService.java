@@ -59,8 +59,9 @@ public class UserService {
     }
 
     private void validateEmail(final UserDTO userDTO) {
+        final HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         if (UtilService.emailValidation(userDTO.getEmail())) {
-            throw new UserRequestServiceException(Constants.EMAIL_PATTERN, Constants.POST, Constants.ENDCREATED, userDTO.getCreatedBy(), Constants.USER, Constants.CREATED_USER);
+            throw new UserRequestServiceException(Constants.EMAIL_PATTERN, Constants.EMAIL_PATTERN, request.getRequestURI(), getClass().getName(), Constants.POST, userDTO.getCreatedBy(), Constants.USERREQUESTEXCEPTION);
         }
         final Optional<org.app.entity.User> emailFound = this.userRepository.findByName(userDTO.getEmail());
         if (emailFound.isPresent()) {
@@ -71,7 +72,7 @@ public class UserService {
     private void validatePhone(final UserDTO userDTO) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         if (UtilService.phoneNumberValidation(userDTO.getPhone())) {
-            throw new UserRequestServiceException(Constants.PHONE_PATTERN, Constants.POST, request.getRequestURI(), userDTO.getCreatedBy(), Constants.USER, Constants.CREATED_USER);
+            throw new UserRequestServiceException(Constants.PHONE_PATTERN, Constants.EMAIL_PATTERN, request.getRequestURI(), getClass().getName(), Constants.POST, userDTO.getCreatedBy(), Constants.USERREQUESTEXCEPTION);
         }
         final List<org.app.entity.User> phoneFound = this.userRepository.findByPhone(userDTO.getPhone());
         if (!phoneFound.isEmpty()) {
@@ -85,32 +86,32 @@ public class UserService {
 
     @Transactional
     public ResponseDTO updateUser(final UserDTO userDTO, final String id) {
-        {
-            final User existingUser = this.userRepository.findById(id).orElseThrow(() -> new UserRequestServiceException(Constants.User, Constants.POST, Constants.ENDCREATED, userDTO.getCreatedBy(), Constants.USER, Constants.CREATED_USER));
-            if (userDTO.getName() != null) {
-                existingUser.setName(userDTO.getName());
-            }
-            if (userDTO.getEmail() != null) {
-                existingUser.setEmail(userDTO.getEmail());
-            }
-            if (userDTO.getCreatedBy() != null) {
-                existingUser.setCreatedBy(userDTO.getCreatedBy());
-            }
-            if (userDTO.getUpdatedBy() != null) {
-                existingUser.setUpdatedBy(userDTO.getUpdatedBy());
-            }
-            if (userDTO.getPassword() != null) {
-                existingUser.setPassword((passwordEncoder.encode(userDTO.getPassword())));
-            }
-            return new ResponseDTO(Constants.SUCCESS, this.userRepository.save(existingUser), HttpStatus.OK.getReasonPhrase());
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        final User existingUser = this.userRepository.findById(id).orElseThrow(() -> new UserRequestServiceException(Constants.User, Constants.EMAIL_PATTERN, request.getRequestURI(), getClass().getName(), Constants.PUT, id, Constants.USERREQUESTEXCEPTION));
+        if (userDTO.getName() != null) {
+            existingUser.setName(userDTO.getName());
         }
-
+        if (userDTO.getEmail() != null) {
+            existingUser.setEmail(userDTO.getEmail());
+        }
+        if (userDTO.getCreatedBy() != null) {
+            existingUser.setCreatedBy(userDTO.getCreatedBy());
+        }
+        if (userDTO.getUpdatedBy() != null) {
+            existingUser.setUpdatedBy(userDTO.getUpdatedBy());
+        }
+        if (userDTO.getPassword() != null) {
+            existingUser.setPassword((passwordEncoder.encode(userDTO.getPassword())));
+        }
+        return new ResponseDTO(Constants.SUCCESS, this.userRepository.save(existingUser), HttpStatus.OK.getReasonPhrase());
     }
+
 
     @Transactional
     public ResponseDTO removeUser(final String id) {
+        final HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         if (!this.userRepository.existsById(id)) {
-            throw new UserRequestServiceException(Constants.User, Constants.POST, Constants.ENDCREATED, null, Constants.USER, Constants.CREATED_USER);
+            throw new UserRequestServiceException(Constants.User, Constants.EMAIL_PATTERN, request.getRequestURI(), getClass().getName(), Constants.DELETE, id, Constants.USERREQUESTEXCEPTION);
         }
         this.userRepository.deleteById(id);
         return new ResponseDTO(Constants.DELETED, id, HttpStatus.OK.getReasonPhrase());
