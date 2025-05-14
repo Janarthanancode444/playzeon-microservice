@@ -3,14 +3,17 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
     <changeSet id="34c2f215-4378-417c-b838-6f07d8e35a08" author="janarthanan">
-        <createTable tableName="error">
+        <createTable tableName="error_history">
             <column name="id" type="UUID">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="error_message" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="type" type="int">
+            <column name="class_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exception" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
             <column name="end_point" type="varchar(100)">
@@ -19,10 +22,15 @@
             <column name="method_name" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="error_created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="error_ occurring" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
 
-            <column name="created_by" type="varchar(100)" defaultValue="NA"/>
+            <column name="user_id" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
 
         </createTable>
+        <addForeignKeyConstraint baseTableName="error_history" baseColumnNames="user_id"
+                                 constraintName="fk_user" referencedTableName="user"
+                                 referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog> 

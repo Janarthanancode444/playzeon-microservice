@@ -1,6 +1,6 @@
 package org.user.service;
 
-
+import jakarta.servlet.http.HttpServletRequest;
 import org.app.entity.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.user.dto.AuthDTO;
 import org.user.dto.ResponseDTO;
 import org.user.dto.UserDTO;
@@ -46,7 +48,7 @@ public class UserService {
     public ResponseDTO create(final UserDTO userDTO) {
         this.validateEmail(userDTO);
         this.validatePhone(userDTO);
-        final User user = new User();
+        final org.app.entity.User user = new org.app.entity.User();
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
         user.setPhone(userDTO.getPhone());
@@ -60,17 +62,18 @@ public class UserService {
         if (UtilService.emailValidation(userDTO.getEmail())) {
             throw new UserRequestServiceException(Constants.EMAIL_PATTERN, Constants.POST, Constants.ENDCREATED, userDTO.getCreatedBy(), Constants.USER, Constants.CREATED_USER);
         }
-        final Optional<User> emailFound = this.userRepository.findByName(userDTO.getEmail());
+        final Optional<org.app.entity.User> emailFound = this.userRepository.findByName(userDTO.getEmail());
         if (emailFound.isPresent()) {
             throw new BadRequestServiceException(Constants.EMAIL);
         }
     }
 
     private void validatePhone(final UserDTO userDTO) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         if (UtilService.phoneNumberValidation(userDTO.getPhone())) {
-            throw new UserRequestServiceException(Constants.PHONE_PATTERN, Constants.POST, Constants.ENDCREATED, userDTO.getCreatedBy(), Constants.USER, Constants.CREATED_USER);
+            throw new UserRequestServiceException(Constants.PHONE_PATTERN, Constants.POST, request.getRequestURI(), userDTO.getCreatedBy(), Constants.USER, Constants.CREATED_USER);
         }
-        final List<User> phoneFound = this.userRepository.findByPhone(userDTO.getPhone());
+        final List<org.app.entity.User> phoneFound = this.userRepository.findByPhone(userDTO.getPhone());
         if (!phoneFound.isEmpty()) {
             throw new BadRequestServiceException(Constants.PHONE);
         }

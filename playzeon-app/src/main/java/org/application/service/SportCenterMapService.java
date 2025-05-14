@@ -6,6 +6,7 @@ import org.app.entity.Sport;
 import org.app.entity.SportCenterMap;
 import org.application.dto.CenterQr;
 import org.application.dto.CenterQrDTO;
+import org.application.dto.QRPropertiesDTO;
 import org.application.dto.SportsCenterMapDTO;
 import org.application.exception.CenterRequestServiceException;
 import org.application.exception.SportCenterMapRequestServiceException;
@@ -14,6 +15,8 @@ import org.application.repository.CenterRepository;
 import org.application.repository.SportCenterMapRepository;
 import org.application.repository.SportRepository;
 import org.application.util.AuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.user.dto.ResponseDTO;
@@ -27,6 +30,9 @@ import static org.application.util.QrCodeUtil.generateQRCodeImage;
 
 @Service
 public class SportCenterMapService {
+    @Autowired(required = true)
+    @Qualifier("qrProperties")
+    private QRPropertiesDTO qrPropertiesDTO;
     private final SportCenterMapRepository sportCenterMapRepository;
     private final CenterRepository centerRepository;
     private final SportRepository sportRepository;
@@ -106,9 +112,9 @@ public class SportCenterMapService {
     }
 
     public CenterQr getCenterQRCodeWithSports(String centerId) throws Exception {
-        final List<Sport> sports = sportCenterMapRepository.findAllByCenterId(centerId).stream().map(SportCenterMap::getSports).toList();
-        final String qrText = "https://81e3-124-123-80-156.ngrok-free.app/api/v1/sportscentermap/retrieveId/e8ebcda6-30b2-4877-8aeb-1833ccbb86fe";
-        final String filePath = "F:\\Internship\\Microservice-playzeon\\output.png";
+        final List<Sport> sports = this.sportCenterMapRepository.findAllByCenterId(centerId).stream().map(SportCenterMap::getSports).toList();
+        final String qrText = this.qrPropertiesDTO.getBaseUrl();
+        final String filePath = this.qrPropertiesDTO.getOutputPath();
         generateQRCodeImage(qrText, 300, 300, filePath);
         return new CenterQr(sports, qrText);
     }

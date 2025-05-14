@@ -3,6 +3,9 @@ package org.application.controller;
 import org.application.dto.CenterQr;
 import org.application.dto.SportsCenterMapDTO;
 import org.application.service.SportCenterMapService;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,4 +68,11 @@ public class SportCenterMapController {
     public ResponseDTO getSportsByCenterId(@PathVariable String centerId) {
         return this.sportCenterMapService.getAllSportsByCenterId(centerId);
     }
+
+    @GetMapping("/api/imager")
+    public ResponseEntity<Resource> getQrImage() {
+        Resource image = new ClassPathResource("images/image/spm_23e1.png");
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(image);
+    }
+
 }

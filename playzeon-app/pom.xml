@@ -41,11 +41,6 @@
             <version>3.5.1</version>
         </dependency>
         <dependency>
-            <groupId>org.user</groupId>
-            <artifactId>user</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
@@ -104,10 +99,14 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.common</groupId>
+            <groupId>org.app</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.user</groupId>
+            <artifactId>user</artifactId>
+            <version>0.0.1-SNAPSHOT</version></dependency>
     </dependencies>
 
     <build>

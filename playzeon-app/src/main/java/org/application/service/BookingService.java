@@ -3,19 +3,26 @@ package org.application.service;
 import jakarta.transaction.Transactional;
 import org.app.entity.Booking;
 import org.app.entity.Center;
+import org.app.entity.User;
 import org.application.dto.BookingDTO;
 import org.application.exception.BookingRequestExceptionService;
 import org.application.exception.CenterRequestServiceException;
 import org.application.repository.BookingRepository;
 import org.application.repository.CenterRepository;
 import org.application.util.AuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.user.dto.ResponseDTO;
+import org.user.repository.UserRepository;
 import org.user.util.Constants;
+
+import java.util.Optional;
 
 @Service
 public class BookingService {
+    @Autowired
+    private UserRepository userRepository;
     private final BookingRepository bookingRepository;
     private final CenterRepository centerRepository;
     private final AuthenticationService authenticationService;
@@ -28,17 +35,30 @@ public class BookingService {
 
     @Transactional
     public ResponseDTO createBooking(final BookingDTO bookingDTO) {
-        final Center center = this.centerRepository.findById(bookingDTO.getCenterId()).orElseThrow(() -> new CenterRequestServiceException(Constants.CENTERID, Constants.CENTERID, Constants.POST, authenticationService.getCurrentUser(), Constants.CREATE, Constants.CENTER));
         final Booking booking = new Booking();
+        final Center center = this.centerRepository.findById(bookingDTO.getCenterId()).orElseThrow(() -> new CenterRequestServiceException(Constants.CENTERID, Constants.CENTERID, Constants.POST, authenticationService.getCurrentUser(), Constants.CREATE, Constants.CENTER));
+        final User user = this.userRepository.findById(bookingDTO.getUserId()).orElseThrow(() -> new BookingRequestExceptionService(Constants.BOOKINGID, Constants.BOOKINGID, Constants.PUT, authenticationService.getCurrentUser(), Constants.UPDATE, Constants.BOOKING));
+        final Optional<Booking> optionalBooking = this.bookingRepository.findByUserId(bookingDTO.getUserId());
+        if (optionalBooking.isPresent()) {
+            booking.setMultiBooking(true);
+        } else {
+            booking.setMultiBooking(false);
+        }
         booking.setName(bookingDTO.getName());
         booking.setPhone(bookingDTO.getPhone());
         booking.setAddress(bookingDTO.getAddress());
         booking.setEmail(bookingDTO.getEmail());
-        booking.setFromTime(bookingDTO.getFromTime());
-        booking.setToTime(bookingDTO.getToTime());
+        final Optional<Booking> optionalBooking1 = this.bookingRepository.findByStartTime(bookingDTO.getStartTime());
+        if (optionalBooking1.isPresent()) {
+            throw new BookingRequestExceptionService(Constants.BOOKINGID, Constants.BOOKINGID, Constants.PUT, authenticationService.getCurrentUser(), Constants.UPDATE, Constants.BOOKING);
+        } else {
+            booking.setStartTime(bookingDTO.getStartTime());
+        }
+        booking.setEndTime(bookingDTO.getEndTime());
         booking.setCenter(center);
-        booking.setCreatedBy(authenticationService.getCurrentUser());
-        booking.setUpdatedBy(authenticationService.getCurrentUser());
+        booking.setUser(user);
+        booking.setCreatedBy(this.authenticationService.getCurrentUser());
+        booking.setUpdatedBy(this.authenticationService.getCurrentUser());
         return new ResponseDTO(Constants.CREATED, this.bookingRepository.save(booking), HttpStatus.OK.getReasonPhrase());
     }
 
@@ -58,11 +78,11 @@ public class BookingService {
         if (bookingDTO.getAddress() != null) {
             booking.setAddress(bookingDTO.getAddress());
         }
-        if (bookingDTO.getFromTime() != null) {
-            booking.setFromTime(bookingDTO.getFromTime());
+        if (bookingDTO.getStartTime() != null) {
+            booking.setStartTime(bookingDTO.getStartTime());
         }
-        if (bookingDTO.getToTime() != null) {
-            booking.setToTime(bookingDTO.getToTime());
+        if (bookingDTO.getEndTime() != null) {
+            booking.setEndTime(bookingDTO.getEndTime());
         }
         return new ResponseDTO(Constants.UPDATED, this.bookingRepository.save(booking), HttpStatus.OK.getReasonPhrase());
     }

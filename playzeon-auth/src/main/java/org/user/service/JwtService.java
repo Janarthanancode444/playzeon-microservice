@@ -15,7 +15,6 @@ import org.user.exception.UserRequestServiceException;
 import org.user.repository.RolesRepository;
 import org.user.repository.UserRepository;
 import org.user.util.Constants;
-
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,8 +64,7 @@ public class JwtService {
     public ResponseDTO generateToken(final String userName) {
         final User user = this.repository.findByName(userName).orElseThrow(() -> new UserRequestServiceException(Constants.User, Constants.User, Constants.POST, userName, Constants.USER, Constants.LOGIN));
         final Map<String, Object> claims = new HashMap<>();
-        final Roles roles = this.rolesRepository.findByRole(user.getId()).orElseThrow(() -> new UserRequestServiceException(Constants.User, Constants.User, Constants.POST, userName, Constants.USER, Constants.LOGIN));
-
+        final Roles roles = this.rolesRepository.findRoleByUserId(user.getId());
         claims.put("role", roles.getRole());
         return new ResponseDTO(Constants.CREATED, createToken(claims, userName), HttpStatus.OK.getReasonPhrase());
     }

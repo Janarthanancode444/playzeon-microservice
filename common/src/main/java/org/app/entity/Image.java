@@ -26,12 +26,12 @@ public class Image {
     @Column(name = "created_at")
     @CurrentTimestamp
     private Instant createdAt;
-    @Column(name = "created_by", nullable = true)
+    @Column(name = "created_by")
     private String createdBy;
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Instant updatedAt;
-    @Column(name = "updated_by", nullable = true)
+    @Column(name = "updated_by")
     private String updatedBy;
 
     public String getId() {

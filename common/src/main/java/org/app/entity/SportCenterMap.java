@@ -6,12 +6,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 
 @Entity
+@Table(name = "sport_center_map")
 public class SportCenterMap {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -23,12 +25,12 @@ public class SportCenterMap {
     @Column(name = "created_at")
     @CurrentTimestamp
     private Instant createdAt;
-    @Column(name = "created_by", nullable = true)
+    @Column(name = "created_by")
     private String createdBy;
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Instant updatedAt;
-    @Column(name = "updated_by", nullable = true)
+    @Column(name = "updated_by")
     private String updatedBy;
 
     public String getId() {

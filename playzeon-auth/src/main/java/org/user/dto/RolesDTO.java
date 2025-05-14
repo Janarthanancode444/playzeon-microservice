@@ -1,11 +1,5 @@
 package org.user.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToOne;
-import org.app.entity.User;
-import org.hibernate.annotations.CurrentTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import java.time.Instant;
 
 public class RolesDTO {

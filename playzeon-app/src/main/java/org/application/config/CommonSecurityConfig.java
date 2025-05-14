@@ -37,7 +37,7 @@ public class CommonSecurityConfig {
         http.csrf(csrf -> csrf.disable())
 
 
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/image/**").permitAll().requestMatchers("/api/v1/organization/**").permitAll().requestMatchers("/api/v1/center/**").permitAll().requestMatchers("/api/v1/sports/**").permitAll().requestMatchers("/api/v1/sportscentermap/**").permitAll().requestMatchers("/api/v1/booking/**").permitAll()
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/image/**").hasAnyAuthority("ROLE_SUPER_ADMIN").requestMatchers("/api/v1/organization/**").permitAll().requestMatchers("/api/v1/center/**").permitAll().requestMatchers("/api/v1/sports/**").permitAll().requestMatchers("/api/v1/sportscentermap/**").permitAll().requestMatchers("/api/v1/booking/**").permitAll()
 
                         .anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless session management
                 ).authenticationProvider(authenticationProvider()) // Custom authentication provider

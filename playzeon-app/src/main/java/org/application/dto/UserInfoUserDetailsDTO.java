@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserInfoUserDetailsDTO implements UserDetails {
-
-
+    private String id;
     private String name;
     private String password;
     private List<GrantedAuthority> authorities;
@@ -22,6 +21,7 @@ public class UserInfoUserDetailsDTO implements UserDetails {
     public UserInfoUserDetailsDTO(User userInfo, Roles roles) {
         this.name = userInfo.getName();
         this.password = userInfo.getPassword();
+        this.id=userInfo.getId();
         this.authorities = Arrays.stream(roles.getRole().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
@@ -58,5 +58,13 @@ public class UserInfoUserDetailsDTO implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

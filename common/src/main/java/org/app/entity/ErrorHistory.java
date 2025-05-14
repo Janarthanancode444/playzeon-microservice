@@ -5,12 +5,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import org.hibernate.annotations.CurrentTimestamp;
 
 import java.time.Instant;
 
 @Entity
-public class Error {
+@Table(name="error_history")
+public class ErrorHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -19,15 +22,18 @@ public class Error {
     private String errorMessage;
     @Column(name = "end_point")
     private String endPoint;
-    @Column(name = "type")
-    private Integer type;
+    @Column(name = "exception")
+    private String exception;
+    @Column(name = "class_name")
+    private String className;
     @Column(name = "method_name")
     private String methodName;
-    @Column(name = "error_created_at")
+    @Column(name = "error_occurring")
     @CurrentTimestamp
-    private Instant errorCreatedAt;
-    @Column(name = "created_by", nullable = true)
-    private String createdBy;
+    private Instant errorOccurring;
+    @ManyToOne
+    private User user;
+
 
     public String getId() {
         return id;
@@ -53,20 +59,20 @@ public class Error {
         this.endPoint = endPoint;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public String getException() {
+        return exception;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setException(String exception) {
+        this.exception = exception;
     }
 
-    public Integer getType() {
-        return type;
+    public String getClassName() {
+        return className;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public String getMethodName() {
@@ -77,11 +83,19 @@ public class Error {
         this.methodName = methodName;
     }
 
-    public Instant getErrorCreatedAt() {
-        return errorCreatedAt;
+    public Instant getErrorOccurring() {
+        return errorOccurring;
     }
 
-    public void setErrorCreatedAt(Instant errorCreatedAt) {
-        this.errorCreatedAt = errorCreatedAt;
+    public void setErrorOccurring(Instant errorOccurring) {
+        this.errorOccurring = errorOccurring;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

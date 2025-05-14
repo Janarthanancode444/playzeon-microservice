@@ -25,8 +25,7 @@ public class UserInfoUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         final User user = userRepository.findByName(username).orElseThrow(() -> new UsernameNotFoundException(Constants.NOT_FOUND + username));
 
-        final Roles roles = rolesRepository.findByRole(user.getId())
-                .orElseThrow(() -> new UsernameNotFoundException(Constants.NOT_FOUND + username));
+        final Roles roles = rolesRepository.findRoleByUserId(user.getId());
 
         return new UserInfoUserDetailsDTO(user, roles);
     }

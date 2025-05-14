@@ -5,6 +5,7 @@ import org.app.entity.Center;
 import org.app.entity.Image;
 import org.app.entity.Organization;
 import org.application.dto.CenterDTO;
+import org.application.dto.ResponseDTO;
 import org.application.exception.CenterRequestServiceException;
 import org.application.exception.OrganizationRequestServiceException;
 import org.application.repository.CenterRepository;
@@ -13,7 +14,6 @@ import org.application.repository.OrganizationRepository;
 import org.application.util.AuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.user.dto.ResponseDTO;
 import org.user.util.Constants;
 
 

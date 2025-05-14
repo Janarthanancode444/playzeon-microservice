@@ -6,34 +6,47 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 
 @Entity
+@Table(name = "booking", uniqueConstraints = {@UniqueConstraint(columnNames = {"start_time"})})
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "phone")
     private String phone;
+    @Column(name = "email")
     private String email;
+    @Column(name = "address")
     private String address;
-    private String fromTime;
-    private String toTime;
+    @Column(name = "start_time")
+    private Instant startTime;
+    @Column(name = "end_time")
+    private Instant endTime;
+    @Column(name = "multi_booking")
+    private Boolean multiBooking = false;
     @ManyToOne
     private Center center;
     @Column(name = "created_at")
     @CurrentTimestamp
     private Instant createdAt;
-    @Column(name = "created_by", nullable = true)
+    @Column(name = "created_by")
     private String createdBy;
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Instant updatedAt;
-    @Column(name = "updated_by", nullable = true)
+    @Column(name = "updated_by")
     private String updatedBy;
+    @ManyToOne
+    private User user;
 
     public String getId() {
         return id;
@@ -75,20 +88,20 @@ public class Booking {
         this.address = address;
     }
 
-    public String getFromTime() {
-        return fromTime;
+    public Instant getStartTime() {
+        return startTime;
     }
 
-    public void setFromTime(String fromTime) {
-        this.fromTime = fromTime;
+    public void setStartTime(Instant startTime) {
+        this.startTime = startTime;
     }
 
-    public String getToTime() {
-        return toTime;
+    public Instant getEndTime() {
+        return endTime;
     }
 
-    public void setToTime(String toTime) {
-        this.toTime = toTime;
+    public void setEndTime(Instant endTime) {
+        this.endTime = endTime;
     }
 
     public Center getCenter() {
@@ -129,5 +142,21 @@ public class Booking {
 
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public Boolean getMultiBooking() {
+        return multiBooking;
+    }
+
+    public void setMultiBooking(Boolean multiBooking) {
+        this.multiBooking = multiBooking;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

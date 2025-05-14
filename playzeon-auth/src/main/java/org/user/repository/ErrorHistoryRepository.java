@@ -1,10 +1,10 @@
 package org.user.repository;
 
-import org.app.entity.Error;
+import org.app.entity.ErrorHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ErrorRepository extends JpaRepository<Error, String> {
+public interface ErrorHistoryRepository extends JpaRepository<ErrorHistory, String> {
 
 }

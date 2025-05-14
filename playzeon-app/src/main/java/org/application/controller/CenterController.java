@@ -1,7 +1,7 @@
 package org.application.controller;
 
 import org.application.dto.CenterDTO;
-import org.user.dto.ResponseDTO;
+import org.application.dto.ResponseDTO;
 import org.application.service.CenterService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;

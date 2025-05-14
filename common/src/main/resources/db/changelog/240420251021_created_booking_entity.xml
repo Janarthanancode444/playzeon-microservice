@@ -34,10 +34,19 @@
             <column name="center_id" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="from_time" type="varchar(50)">
+            <column name="start_time" type="timestamp">
                 <constraints nullable="false"/>
             </column>
-            <column name="to_time" type="varchar(50)">
+            <column name="end_time" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="multi_booking" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
 
@@ -45,12 +54,13 @@
         <addForeignKeyConstraint baseTableName="booking" baseColumnNames="center_id"
                                  constraintName="fk_center_id" referencedTableName="center"
                                  referencedColumnNames="id"/>
-    </changeSet>
-    <changeSet id="34c2f215-4378-417c-b838-6f07d8e35a09" author="janarthanan">
-        <addColumn tableName="booking">
-            <column name="address" type="varchar(50)">
-                <constraints nullable="false"/>
-            </column>
-        </addColumn>
+        <addForeignKeyConstraint baseTableName="booking" baseColumnNames="user_id"
+                                 constraintName="fk_booking_user_id" referencedTableName="user"
+                                 referencedColumnNames="id"/>
+        <addUniqueConstraint
+                tableName="booking"
+                columnNames="start_time"
+                constraintName="uc_booking_start_time"/>
+
     </changeSet>
 </databaseChangeLog>

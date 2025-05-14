@@ -7,8 +7,9 @@ public class BookingDTO {
     private String phone;
     private String email;
     private String address;
-    private String fromTime;
-    private String toTime;
+    private Instant startTime;
+    private Instant endTime;
+    private String userId;
     private String centerId;
 
     private Instant createdAt;
@@ -50,23 +51,21 @@ public class BookingDTO {
         this.address = address;
     }
 
-    public String getFromTime() {
-        return fromTime;
+    public Instant getStartTime() {
+        return startTime;
     }
 
-    public void setFromTime(String fromTime) {
-        this.fromTime = fromTime;
+    public void setStartTime(Instant startTime) {
+        this.startTime = startTime;
     }
 
-    public String getToTime() {
-        return toTime;
+    public Instant getEndTime() {
+        return endTime;
     }
 
-    public void setToTime(String toTime) {
-        this.toTime = toTime;
+    public void setEndTime(Instant endTime) {
+        this.endTime = endTime;
     }
-
-
 
     public Instant getCreatedAt() {
         return createdAt;
@@ -106,5 +105,13 @@ public class BookingDTO {
 
     public void setCenterId(String centerId) {
         this.centerId = centerId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

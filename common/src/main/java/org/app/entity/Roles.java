@@ -6,12 +6,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 
 @Entity
+@Table(name="roles")
 public class Roles {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,12 +23,12 @@ public class Roles {
     @Column(name = "created_at")
     @CurrentTimestamp
     private Instant createdAt;
-    @Column(name = "created_by", nullable = true)
+    @Column(name = "created_by")
     private String createdBy;
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Instant updatedAt;
-    @Column(name = "updated_by", nullable = true)
+    @Column(name = "updated_by")
     private String updatedBy;
     @OneToOne
     private User user;

@@ -6,7 +6,7 @@
 
     <changeSet id="0e501907-6999-4b3b-a019-a479da9de98b1" author="janarthanan">
         <loadData
-                file="db/changelog/120520251134_create_sport.csv"
+                file="db/data/120520251134_create_sport.csv"
                 tableName="sport"
                 separator=","
                 encoding="UTF-8"/>

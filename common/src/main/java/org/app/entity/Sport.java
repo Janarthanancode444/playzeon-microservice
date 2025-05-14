@@ -7,12 +7,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 
 @Entity
+@Table(name="sport")
 public class Sport {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -22,12 +24,12 @@ public class Sport {
     @Column(name = "created_at")
     @CurrentTimestamp
     private Instant createdAt;
-    @Column(name = "created_by", nullable = true)
+    @Column(name = "created_by")
     private String createdBy;
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Instant updatedAt;
-    @Column(name = "updated_by", nullable = true)
+    @Column(name = "updated_by")
     private String updatedBy;
     @Column(name = "sports_type")
     private String sportsType;
@@ -36,7 +38,6 @@ public class Sport {
     @JsonIgnore
     @ManyToOne
     private Image image;
-
 
     public String getSportsType() {
         return sportsType;
