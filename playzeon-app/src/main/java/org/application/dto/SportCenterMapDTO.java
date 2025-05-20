@@ -2,39 +2,28 @@ package org.application.dto;
 
 import java.time.Instant;
 
-public class SportsDTO {
-    private String name;
+public class SportCenterMapDTO {
+    private String centerId;
+    private String sportsId;
     private Instant createdAt;
     private String createdBy;
     private Instant updatedAt;
     private String updatedBy;
-    private String sportsType;
-    private String sportsCategory;
-    private String imageId;
 
-
-    public String getSportsType() {
-        return sportsType;
+    public String getCenterId() {
+        return centerId;
     }
 
-    public void setSportsType(String sportsType) {
-        this.sportsType = sportsType;
+    public void setCenterId(String centerId) {
+        this.centerId = centerId;
     }
 
-    public String getSportsCategory() {
-        return sportsCategory;
+    public String getSportsId() {
+        return sportsId;
     }
 
-    public void setSportsCategory(String sportsCategory) {
-        this.sportsCategory = sportsCategory;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setSportsId(String sportsId) {
+        this.sportsId = sportsId;
     }
 
     public Instant getCreatedAt() {
@@ -67,13 +56,5 @@ public class SportsDTO {
 
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
-    }
-
-    public String getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
     }
 }
