@@ -21,11 +21,9 @@ public class CommonUserInfoUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final User user = userRepository.findByName(username).orElseThrow(() -> new UsernameNotFoundException(org.user.util.Constants.NOT_FOUND + username));
-
+    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
+        final User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(org.user.util.Constants.NOT_FOUND + email));
         final Roles roles = rolesRepository.findRoleByUserId(user.getId());
-
         return new UserInfoUserDetailsDTO(user, roles);
     }
 }

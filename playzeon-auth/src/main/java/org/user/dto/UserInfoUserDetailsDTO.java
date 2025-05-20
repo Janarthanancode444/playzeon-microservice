@@ -37,7 +37,7 @@ public class UserInfoUserDetailsDTO implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return null;
     }
 
     @Override

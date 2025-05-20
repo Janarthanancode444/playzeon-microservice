@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.user.dto.ResponseDTO;
-import org.user.exception.UserRequestServiceException;
 import org.user.repository.RolesRepository;
 import org.user.repository.UserRepository;
 import org.user.util.Constants;
@@ -23,6 +22,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Component
@@ -38,7 +38,7 @@ public class JwtService {
         this.rolesRepository = rolesRepository;
     }
 
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -60,18 +60,23 @@ public class JwtService {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String email = extractEmail(token);
+        return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
 
-    public ResponseDTO generateToken(final String userName) {
+    public ResponseDTO generateToken(final String email) {
         final HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        final User user = this.repository.findByName(userName).orElseThrow(() -> new UserRequestServiceException(Constants.User, Constants.EMAIL_PATTERN, request.getRequestURI(), getClass().getName(), Constants.POST, userName, Constants.USERREQUESTEXCEPTION));
+        final Optional<User> user = this.repository.findByEmail(email);
         final Map<String, Object> claims = new HashMap<>();
-        final Roles roles = this.rolesRepository.findRoleByUserId(user.getId());
+        String userId = "";
+        if (user.isPresent()) {
+            final User userdto = user.get();
+            userId = userdto.getId();
+        }
+        final Roles roles = this.rolesRepository.findRoleByUserId(userId);
         claims.put("role", roles.getRole());
-        return new ResponseDTO(Constants.CREATED, createToken(claims, userName), HttpStatus.OK.getReasonPhrase());
+        return new ResponseDTO(Constants.CREATED, createToken(claims, email), HttpStatus.OK.getReasonPhrase());
     }
 
     private String createToken(Map<String, Object> claims, String userName) {

@@ -1,9 +1,8 @@
 package org.application.controller;
 
 import org.application.dto.BookingDTO;
+import org.application.dto.ResponseDTO;
 import org.application.service.BookingService;
-import org.user.dto.ResponseDTO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

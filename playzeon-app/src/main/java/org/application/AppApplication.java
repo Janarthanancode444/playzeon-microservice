@@ -19,4 +19,9 @@ public class AppApplication {
         Resource image = new ClassPathResource("F:\\Internship\\Microservice-playzeon\\playzeon-app\\src\\main\\resources\\images\\spm_23e1.png");
 
     }
+
+//    @Bean
+//    public WebClient.Builder getWebClient() {
+//        return WebClient.builder();
+//    }
 }

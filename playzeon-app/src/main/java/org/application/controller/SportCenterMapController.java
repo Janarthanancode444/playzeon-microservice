@@ -1,7 +1,8 @@
 package org.application.controller;
 
 import org.application.dto.CenterQr;
-import org.application.dto.SportsCenterMapDTO;
+import org.application.dto.ResponseDTO;
+import org.application.dto.SportCenterMapDTO;
 import org.application.service.SportCenterMapService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -15,10 +16,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.user.dto.ResponseDTO;
+//import org.user.dto.ResponseDTO;
 
 @RestController
-@RequestMapping("/api/v1/sportscentermap")
+@RequestMapping("/api/v1/sport-center-map")
 public class SportCenterMapController {
     private final SportCenterMapService sportCenterMapService;
 
@@ -28,8 +29,8 @@ public class SportCenterMapController {
 
     @PostMapping("/create")
     //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseDTO createsportsCenter(@RequestBody final SportsCenterMapDTO sportsCenterMapDTO) {
-        return this.sportCenterMapService.createSportsCenter(sportsCenterMapDTO);
+    public ResponseDTO createSportCenter(@RequestBody final SportCenterMapDTO sportCenterMapDTO) {
+        return this.sportCenterMapService.createSportCenter(sportCenterMapDTO);
     }
 
     @GetMapping("/retrieveAll")
@@ -38,16 +39,16 @@ public class SportCenterMapController {
         return this.sportCenterMapService.retrieveAll();
     }
 
-    @GetMapping("/retrieveId/{id}")
+    @GetMapping("/retrieve-by-id/{id}")
     // @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseDTO retrieveId(@PathVariable final String id) {
+    public ResponseDTO retrieveByID(@PathVariable final String id) {
         return this.sportCenterMapService.getAllSportsByCenterId(id);
     }
 
     @PutMapping("/update/{id}")
     //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseDTO updateSports(@RequestBody final SportsCenterMapDTO sportsCenterMapDTO, @PathVariable final String id) {
-        return this.sportCenterMapService.updateSports(sportsCenterMapDTO, id);
+    public ResponseDTO updateSports(@RequestBody final SportCenterMapDTO sportCenterMapDTO, @PathVariable final String id) {
+        return this.sportCenterMapService.updateSports(sportCenterMapDTO, id);
     }
 
     @DeleteMapping("/remove/{id}")

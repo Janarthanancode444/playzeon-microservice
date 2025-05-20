@@ -1,12 +1,9 @@
 package org.application.controller;
 
-import org.application.dto.SportsDTO;
-import org.user.dto.ResponseDTO;
-import org.user.exception.BadRequestServiceException;
+import org.application.dto.ResponseDTO;
+import org.application.dto.SportDTO;
 import org.application.service.SportService;
-import org.user.util.Constants;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.user.exception.BadRequestServiceException;
+import org.user.util.Constants;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,8 +47,8 @@ public class SportController {
 
     @PostMapping("/create")
     //@PreAuthorize("hasAuthority('ROLE_CENTER_ADMIN')")
-    public ResponseDTO createSport(@RequestBody final SportsDTO sportsDTO) {
-        return this.sportService.createSport(sportsDTO);
+    public ResponseDTO createSport(@RequestBody final SportDTO sportDTO) {
+        return this.sportService.createSport(sportDTO);
     }
 
     @GetMapping("/retrieve")
@@ -57,6 +56,7 @@ public class SportController {
     public ResponseDTO retrieveSports() {
         return this.sportService.retrieveSports();
     }
+
     @GetMapping("/retrieve/{id}")
     //@PreAuthorize("hasAuthority('ROLE_CENTER_ADMIN')")
     public ResponseDTO retrieveId(@PathVariable final String id) {
@@ -64,13 +64,13 @@ public class SportController {
     }
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasAuthority('ROLE_CENTER_ADMIN')")
-    public ResponseDTO updateSport(@RequestBody final SportsDTO sportsDTO, @PathVariable final String id) {
-        return this.sportService.updateSport(sportsDTO, id);
+    //@PreAuthorize("hasAuthority('ROLE_CENTER_ADMIN')")
+    public ResponseDTO updateSport(@RequestBody final SportDTO sportDTO, @PathVariable final String id) {
+        return this.sportService.updateSport(sportDTO, id);
     }
 
     @DeleteMapping("/remove/{id}")
-    @PreAuthorize("hasAuthority('ROLE_CENTER_ADMIN')")
+    // @PreAuthorize("hasAuthority('ROLE_CENTER_ADMIN')")
     public ResponseDTO removeSport(@PathVariable final String id) {
         return this.sportService.removeSport(id);
     }

@@ -3,7 +3,6 @@ package org.application.controller;
 import org.application.dto.CenterDTO;
 import org.application.dto.ResponseDTO;
 import org.application.service.CenterService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,19 +28,19 @@ public class CenterController {
     }
 
     @GetMapping("/retrieve")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseDTO retrieveCenter() {
         return this.centerService.retrieveCenter();
     }
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    // @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseDTO updateCenter(@RequestBody final CenterDTO centerDTO, @PathVariable final String id) {
         return this.centerService.updateCenter(centerDTO, id);
     }
 
     @DeleteMapping("/remove/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseDTO removeCenter(@PathVariable final String id) {
         return this.centerService.removeCenter(id);
     }

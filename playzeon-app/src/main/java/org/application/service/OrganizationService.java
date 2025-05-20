@@ -4,18 +4,21 @@ import jakarta.transaction.Transactional;
 import org.app.entity.Image;
 import org.app.entity.Organization;
 import org.application.dto.OrganizationDTO;
-import org.application.exception.BadRequestServiceException;
+import org.application.dto.ResponseDTO;
 import org.application.exception.OrganizationRequestServiceException;
 import org.application.repository.ImageRepository;
 import org.application.repository.OrganizationRepository;
 import org.application.util.AuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.user.dto.ResponseDTO;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.user.util.Constants;
 
 @Service
 public class OrganizationService {
+    @Autowired
+    private WebClient userServiceWebClient;
     private final OrganizationRepository organizationRepository;
     private final AuthenticationService authenticationService;
     private final ImageRepository imageRepository;
@@ -70,5 +73,10 @@ public class OrganizationService {
         }
         this.organizationRepository.deleteById(id);
         return new ResponseDTO(Constants.REMOVED, id, HttpStatus.OK.getReasonPhrase());
+    }
+
+    public ResponseDTO getUserById() {
+        ResponseDTO responseDTO = userServiceWebClient.get().uri("/user/retrieve").retrieve().bodyToMono(ResponseDTO.class).block();
+        return responseDTO;
     }
 }

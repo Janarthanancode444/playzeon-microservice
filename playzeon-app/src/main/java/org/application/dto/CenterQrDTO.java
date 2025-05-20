@@ -11,8 +11,8 @@ public class CenterQrDTO {
     private String createdBy;
     private Instant updatedAt;
     private String updatedBy;
-    private String sportsType;
-    private String sportsCategory;
+    private String sportType;
+    private String sportCategory;
 
     public String getCenterId() {
         return centerId;
@@ -78,19 +78,19 @@ public class CenterQrDTO {
         this.updatedBy = updatedBy;
     }
 
-    public String getSportsType() {
-        return sportsType;
+    public String getSportType() {
+        return sportType;
     }
 
-    public void setSportsType(String sportsType) {
-        this.sportsType = sportsType;
+    public void setSportType(String sportType) {
+        this.sportType = sportType;
     }
 
-    public String getSportsCategory() {
-        return sportsCategory;
+    public String getSportCategory() {
+        return sportCategory;
     }
 
-    public void setSportsCategory(String sportsCategory) {
-        this.sportsCategory = sportsCategory;
+    public void setSportCategory(String sportCategory) {
+        this.sportCategory = sportCategory;
     }
 }

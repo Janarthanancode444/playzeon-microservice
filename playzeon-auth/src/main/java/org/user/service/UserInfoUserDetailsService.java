@@ -22,8 +22,8 @@ public class UserInfoUserDetailsService implements UserDetailsService {
     private RolesRepository rolesRepository;
 
     @Override
-    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final User user = userRepository.findByName(username).orElseThrow(() -> new UsernameNotFoundException(Constants.NOT_FOUND + username));
+    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
+        final User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(Constants.NOT_FOUND + email));
 
         final Roles roles = rolesRepository.findRoleByUserId(user.getId());
 

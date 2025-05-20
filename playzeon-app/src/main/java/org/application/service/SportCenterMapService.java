@@ -7,7 +7,8 @@ import org.app.entity.SportCenterMap;
 import org.application.dto.CenterQr;
 import org.application.dto.CenterQrDTO;
 import org.application.dto.QRPropertiesDTO;
-import org.application.dto.SportsCenterMapDTO;
+import org.application.dto.ResponseDTO;
+import org.application.dto.SportCenterMapDTO;
 import org.application.exception.CenterRequestServiceException;
 import org.application.exception.SportCenterMapRequestServiceException;
 import org.application.exception.SportRequestServiceException;
@@ -19,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.user.dto.ResponseDTO;
 import org.user.exception.BadRequestServiceException;
 import org.user.util.Constants;
 
@@ -46,9 +46,9 @@ public class SportCenterMapService {
     }
 
     @Transactional
-    public ResponseDTO createSportsCenter(final SportsCenterMapDTO sportsCenterMapDTO) {
-        final Center center = this.centerRepository.findById(sportsCenterMapDTO.getCenterId()).orElseThrow(() -> new CenterRequestServiceException(Constants.IMAGEID, Constants.POST, Constants.CREATE, authenticationService.getCurrentUser(), Constants.CREATE, Constants.CENTER));
-        final Sport sport = this.sportRepository.findById(sportsCenterMapDTO.getSportsId()).orElseThrow(() -> new SportRequestServiceException(Constants.SPORTSID, Constants.SPORTSID, Constants.CREATE, authenticationService.getCurrentUser(), Constants.CREATE, Constants.SPORT));
+    public ResponseDTO createSportCenter(final SportCenterMapDTO sportCenterMapDTO) {
+        final Center center = this.centerRepository.findById(sportCenterMapDTO.getCenterId()).orElseThrow(() -> new CenterRequestServiceException(Constants.IMAGEID, Constants.POST, Constants.CREATE, authenticationService.getCurrentUser(), Constants.CREATE, Constants.CENTER));
+        final Sport sport = this.sportRepository.findById(sportCenterMapDTO.getSportsId()).orElseThrow(() -> new SportRequestServiceException(Constants.SPORTSID, Constants.SPORTSID, Constants.CREATE, authenticationService.getCurrentUser(), Constants.CREATE, Constants.SPORT));
         final SportCenterMap sportCenterMap = new SportCenterMap();
         sportCenterMap.setCenter(center);
         sportCenterMap.setSports(sport);
@@ -63,14 +63,14 @@ public class SportCenterMapService {
     }
 
     @Transactional
-    public ResponseDTO updateSports(final SportsCenterMapDTO sportsCenterMapDTO, final String id) {
+    public ResponseDTO updateSports(final SportCenterMapDTO sportCenterMapDTO, final String id) {
         final SportCenterMap sportCenterMap = this.sportCenterMapRepository.findById(id).orElseThrow(() -> new SportCenterMapRequestServiceException(Constants.SPORTSCENTER, Constants.SPORTSCENTER, Constants.PUT, authenticationService.getCurrentUser(), Constants.UPDATE, Constants.SPORTCENTERMAP));
-        if (sportsCenterMapDTO.getCenterId() != null) {
-            final Center center = this.centerRepository.findById(sportsCenterMapDTO.getSportsId()).orElseThrow(() -> new BadRequestServiceException(Constants.CENTERID));
+        if (sportCenterMapDTO.getCenterId() != null) {
+            final Center center = this.centerRepository.findById(sportCenterMapDTO.getSportsId()).orElseThrow(() -> new BadRequestServiceException(Constants.CENTERID));
             sportCenterMap.setCenter(center);
         }
-        if (sportsCenterMapDTO.getSportsId() != null) {
-            final Sport sport = this.sportRepository.findById(sportsCenterMapDTO.getSportsId()).orElseThrow(() -> new BadRequestServiceException(Constants.SPORTSID));
+        if (sportCenterMapDTO.getSportsId() != null) {
+            final Sport sport = this.sportRepository.findById(sportCenterMapDTO.getSportsId()).orElseThrow(() -> new BadRequestServiceException(Constants.SPORTSID));
             sportCenterMap.setSports(sport);
         }
         return new ResponseDTO(Constants.UPDATED, this.sportCenterMapRepository.save(sportCenterMap), HttpStatus.OK.getReasonPhrase());
@@ -102,8 +102,8 @@ public class SportCenterMapService {
             dto.setCreatedBy(sportCenterMap.getSports().getCreatedBy());
             dto.setUpdatedAt(sportCenterMap.getSports().getUpdatedAt());
             dto.setUpdatedBy(sportCenterMap.getSports().getUpdatedBy());
-            dto.setSportsType(sportCenterMap.getSports().getSportsType());
-            dto.setSportsCategory(sportCenterMap.getSports().getSportsCategory());
+            dto.setSportType(sportCenterMap.getSports().getSportsType());
+            dto.setSportCategory(sportCenterMap.getSports().getSportsCategory());
             return new ResponseDTO(Constants.RETRIEVED, dto, HttpStatus.OK.getReasonPhrase());
         } else {
 

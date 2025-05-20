@@ -1,6 +1,7 @@
 package org.application.dto;
 
 public class ResponseDTO {
+
     private String message;
     private Object data;
     private String statusValue;

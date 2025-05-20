@@ -15,12 +15,14 @@ import java.util.stream.Collectors;
 public class UserInfoUserDetailsDTO implements UserDetails {
     private String id;
     private String name;
+    private String email;
     private String password;
     private List<GrantedAuthority> authorities;
 
     public UserInfoUserDetailsDTO(User userInfo, Roles roles) {
-        this.name = userInfo.getName();
+        this.name = userInfo.getEmail();
         this.password = userInfo.getPassword();
+        this.email=userInfo.getEmail();
         this.id=userInfo.getId();
         this.authorities = Arrays.stream(roles.getRole().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
@@ -66,5 +68,13 @@ public class UserInfoUserDetailsDTO implements UserDetails {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

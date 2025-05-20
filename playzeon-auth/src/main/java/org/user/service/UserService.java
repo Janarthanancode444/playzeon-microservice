@@ -118,15 +118,21 @@ public class UserService {
     }
 
     public ResponseDTO login(final AuthDTO authDTO) {
-        final Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDTO.getUsername(), authDTO.getPassword()));
+        final Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDTO.getEmail(), authDTO.getPassword()));
         if (authentication.isAuthenticated()) {
             final SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("janarthanan0607@gmail.com");
-            message.setTo(this.userRepository.findByEmail(authDTO.getUsername()));
+            final Optional<User> user = this.userRepository.findByEmail(authDTO.getEmail());
+            String email = "";
+            if (user.isPresent()) {
+                final User userdto = user.get();
+                email = userdto.getEmail();
+            }
+            message.setTo(email);
             message.setSubject(Constants.SUBJECT);
             message.setText(Constants.BODY);
             javaMailSender.send(message);
-            return jwtService.generateToken(authDTO.getUsername());
+            return jwtService.generateToken(authDTO.getEmail());
 
         } else {
             throw new UsernameNotFoundException(Constants.NOT_FOUND);

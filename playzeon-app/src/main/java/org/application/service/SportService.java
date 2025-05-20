@@ -5,7 +5,8 @@ import com.opencsv.exceptions.CsvException;
 import jakarta.transaction.Transactional;
 import org.app.entity.Image;
 import org.app.entity.Sport;
-import org.application.dto.SportsDTO;
+import org.application.dto.ResponseDTO;
+import org.application.dto.SportDTO;
 import org.application.exception.SportRequestServiceException;
 import org.application.repository.CenterRepository;
 import org.application.repository.ImageRepository;
@@ -13,7 +14,6 @@ import org.application.repository.SportRepository;
 import org.application.util.AuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.user.dto.ResponseDTO;
 import org.user.util.Constants;
 
 import java.io.FileReader;
@@ -35,13 +35,13 @@ public class SportService {
     }
 
     @Transactional
-    public ResponseDTO createSport(final SportsDTO sportsDTO) {
+    public ResponseDTO createSport(final SportDTO sportDTO) {
         final Sport sport = new Sport();
-        final Image image = this.imageRepository.findById(sportsDTO.getImageId()).orElseThrow(() -> new SportRequestServiceException(Constants.IMAGEID, Constants.IMAGEID, Constants.POST, authenticationService.getCurrentUser(), Constants.CREATE, Constants.SPORT));
-        sport.setName(sportsDTO.getName());
-        sport.setSportsType(sportsDTO.getSportsType());
+        final Image image = this.imageRepository.findById(sportDTO.getImageId()).orElseThrow(() -> new SportRequestServiceException(Constants.IMAGEID, Constants.IMAGEID, Constants.POST, authenticationService.getCurrentUser(), Constants.CREATE, Constants.SPORT));
+        sport.setName(sportDTO.getName());
+        sport.setSportsType(sportDTO.getSportsType());
         sport.setImage(image);
-        sport.setSportsCategory(sportsDTO.getSportsCategory());
+        sport.setSportsCategory(sportDTO.getSportsCategory());
         sport.setCreatedBy(authenticationService.getCurrentUser());
         sport.setUpdatedBy(authenticationService.getCurrentUser());
         return new ResponseDTO(Constants.CREATED, this.sportRepository.save(sport), HttpStatus.OK.getReasonPhrase());
@@ -51,10 +51,10 @@ public class SportService {
         return new ResponseDTO(Constants.RETRIEVED, this.sportRepository.findAll(), HttpStatus.OK.getReasonPhrase());
     }
 
-    public ResponseDTO updateSport(final SportsDTO sportsDTO, final String id) {
+    public ResponseDTO updateSport(final SportDTO sportDTO, final String id) {
         final Sport sport = this.sportRepository.findById(id).orElseThrow(() -> new SportRequestServiceException(Constants.SPORTSID, Constants.SPORTSID, Constants.PUT, authenticationService.getCurrentUser(), Constants.UPDATE, Constants.SPORT));
-        if (sportsDTO.getName() != null) {
-            sport.setName(sportsDTO.getName());
+        if (sportDTO.getName() != null) {
+            sport.setName(sportDTO.getName());
         }
         return new ResponseDTO(Constants.UPDATED, this.sportRepository.save(sport), HttpStatus.OK.getReasonPhrase());
     }
