@@ -3,9 +3,12 @@ package org.application.controller;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.app.entity.Organization;
 import org.application.dto.OrganizationDTO;
 import org.application.dto.ResponseDTO;
 import org.application.service.OrganizationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/organization")
 public class OrganizationController {
+    @Autowired
+    private KafkaTemplate<String, ResponseDTO> kafkaTemplate;
+    private static final String TOPIC = "new-topic";
     private final OrganizationService organizationService;
 
     public OrganizationController(final OrganizationService organizationService) {
@@ -37,6 +43,7 @@ public class OrganizationController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Organization list retrieved successfully"), @ApiResponse(responseCode = "403", description = "Access denied"), @ApiResponse(responseCode = "500", description = "Server error")})
     //@PreAuthorize("hasAuthority('ROLE_SUPER_ADMIN')")
     public ResponseDTO retrieve() {
+        kafkaTemplate.send(TOPIC, this.organizationService.retrieveOrganization());
         return this.organizationService.retrieveOrganization();
     }
 

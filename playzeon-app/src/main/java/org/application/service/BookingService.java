@@ -5,6 +5,7 @@ import org.app.entity.Booking;
 import org.app.entity.Center;
 import org.app.entity.User;
 import org.application.dto.BookingDTO;
+import org.application.dto.OrganizationCenterDTO;
 import org.application.dto.ResponseDTO;
 import org.application.exception.BookingRequestExceptionService;
 import org.application.exception.CenterRequestServiceException;
@@ -95,5 +96,26 @@ public class BookingService {
         }
         this.bookingRepository.deleteById(id);
         return new ResponseDTO(Constants.REMOVED, id, HttpStatus.OK.getReasonPhrase());
+    }
+
+    public ResponseDTO retrieveById(final String id) {
+        final Optional<Booking> optionalOrganization = this.bookingRepository.findOrganizationId(id);
+        final OrganizationCenterDTO dto = new OrganizationCenterDTO();
+        if (optionalOrganization.isPresent()) {
+            final Booking booking = optionalOrganization.get();
+            dto.setOrganizationId(booking.getCenter().getOrganization().getId());
+            dto.setOrganizationName(booking.getCenter().getOrganization().getName());
+            dto.setCenterId(booking.getCenter().getId());
+            dto.setCenterName(booking.getCenter().getName());
+            dto.setBookingId(booking.getId());
+            dto.setUserId(booking.getUser().getId());
+        }
+        return new ResponseDTO(Constants.RETRIEVED, dto, HttpStatus.OK.getReasonPhrase());
+    }
+
+    public ResponseDTO retrieveByDate() {
+        final String date = "2025-05-23";
+        return new ResponseDTO(Constants.RETRIEVED, this.bookingRepository.findByDate(date), HttpStatus.OK.getReasonPhrase());
+
     }
 }

@@ -3,6 +3,9 @@ package org.application.service;
 import jakarta.transaction.Transactional;
 import org.app.entity.Image;
 import org.app.entity.Organization;
+import org.app.entity.SportCenterMap;
+import org.application.dto.CenterQrDTO;
+import org.application.dto.OrganizationCenterDTO;
 import org.application.dto.OrganizationDTO;
 import org.application.dto.ResponseDTO;
 import org.application.exception.OrganizationRequestServiceException;
@@ -14,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.user.util.Constants;
+
+import java.util.Optional;
 
 @Service
 public class OrganizationService {
@@ -79,4 +84,5 @@ public class OrganizationService {
         ResponseDTO responseDTO = userServiceWebClient.get().uri("/user/retrieve").retrieve().bodyToMono(ResponseDTO.class).block();
         return responseDTO;
     }
+
 }
